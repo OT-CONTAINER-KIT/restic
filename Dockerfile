@@ -8,8 +8,8 @@ LABEL VERSION=1.0 \
 RUN apk add --no-cache bash restic
 
 COPY restic.sh /scripts/
-COPY restic.default /etc/restic/restic.default
+COPY restic.default /etc/restic/
 
-COPY entrypoint.sh /entrypoint.sh
+COPY resticEntrypoint.sh /
 
-ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/resticEntrypoint.sh"]

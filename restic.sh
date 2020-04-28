@@ -27,7 +27,12 @@ function initialized(){
 function pushSnapshot(){
   local base_dir=$1
   local snapshot_file_name=$2
+  local BACKUP_FILE=$base_dir/$snapshot_file_name
   if initialized; then
+    if [ ! -f "$BACKUP_FILE" ]; then
+      echo "$BACKUP_FILE does not exist. Please check!!!!!!!!!!"
+      exit 1
+    fi
     echo "Pushing $base_dir/$snapshot_file_name to $RESTIC_REPOSITORY"
 
     pushd $base_dir
@@ -39,8 +44,22 @@ function pushSnapshot(){
   fi
 }
 
-function pullSnapshot(){
-    local snapshot_file_id=$1
-    initStorage
-    restic restore $restore_file_id -t /Common_SharedDir
+function listSnapshots() {
+  if initialized; then
+    restic snapshots
+  else
+    echo "Restic repo $RESTIC_REPOSITORY is not initialized please check!!!!!"
+    exit 1
+  fi
+}
+
+function restoreSnapshot(){
+    local snapshot_id=$1
+    local restore_location=$2
+    if initialized; then
+      restic restore $snapshot_id -t /restore_location
+    else
+      echo "Restic repo $RESTIC_REPOSITORY is not initialized please check!!!!!"
+      exit 1
+    fi
 }
