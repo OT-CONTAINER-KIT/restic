@@ -1,6 +1,6 @@
 #!/bin/bash
-source /etc/restic/restic.default
-source /etc/restic/restic.properties
+source /etc/backup/restic.default
+source /etc/backup/restic.properties
 
 function initStorage() {
   if ! initialized; then
