@@ -18,3 +18,10 @@ list:
 
 restore-snapshot:
 	docker run -v ${PWD}/sample/restic.properties:/etc/restic/restic.properties -it --rm opstree/restic:0.1 restore c6b69e10 /tmp
+
+end-to-end-test:
+	make initialize
+	make backup
+	make list
+	make restore-snapshot
+	make backup-failure || true
