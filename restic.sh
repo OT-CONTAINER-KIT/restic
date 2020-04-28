@@ -33,8 +33,7 @@ function pushSnapshot(){
       echo "$BACKUP_FILE does not exist. Please check!!!!!!!!!!"
       exit 1
     fi
-    echo "Pushing $base_dir/$snapshot_file_name to $RESTIC_REPOSITORY"
-
+    echo "Pushing $BACKUP_FILE to $RESTIC_REPOSITORY"
     pushd $base_dir
     restic backup $snapshot_file_name
     popd
@@ -46,6 +45,7 @@ function pushSnapshot(){
 
 function listSnapshots() {
   if initialized; then
+    echo "Listing of snapshots"
     restic snapshots
   else
     echo "Restic repo $RESTIC_REPOSITORY is not initialized please check!!!!!"
@@ -57,7 +57,8 @@ function restoreSnapshot(){
     local snapshot_id=$1
     local restore_location=$2
     if initialized; then
-      restic restore $snapshot_id -t /restore_location
+      echo "Restoring $snapshot_id at $restore_location"
+      restic restore $snapshot_id -t $restore_location
     else
       echo "Restic repo $RESTIC_REPOSITORY is not initialized please check!!!!!"
       exit 1
