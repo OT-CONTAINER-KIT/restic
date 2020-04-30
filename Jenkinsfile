@@ -1,5 +1,7 @@
-library 'dockerCI'
+@Library("opstree-library") _
 
 node(){
-    dockerScanner.call("config.properties")
+    dockerWorkflow.call(
+        configFilePath: "config.properties"
+    )
 }
