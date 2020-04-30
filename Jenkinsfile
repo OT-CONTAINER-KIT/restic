@@ -1,4 +1,4 @@
-@Library("opstree-library") _
+@Library("opstree-library@docker-ci") _
 
 node(){
     dockerWorkflow.call(
