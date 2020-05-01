@@ -1,7 +1,7 @@
 @Library("opstree-library@docker-ci") _
 
 node(){
-    dockerWorkflow.call(
+    dockerImagePublisherWorkflow.call(
         configFilePath: "config.properties"
     )
 }
