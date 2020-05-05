@@ -1,23 +1,28 @@
+ifndef RESTIC_IMAGE_VERSION
+override RESTIC_IMAGE_VERSION = 0.2
+endif
+
+
 build:
-	docker build --no-cache  -t opstree/restic:0.1 .
+	docker build --no-cache  -t opstree/restic:$(RESTIC_IMAGE_VERSION) .
 
 run-entrypoint:
-	docker run --entrypoint /bin/bash -v ${PWD}/sample/restic.properties:/etc/restic/restic.properties -it --rm opstree/restic:0.1
+	docker run --entrypoint /bin/bash -v ${PWD}/sample/restic.properties:/etc/restic/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION)
 
 initialize:
-	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:0.1 init
+	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) init
 
 backup:
-	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:0.1 backup scripts restic.sh
+	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) backup scripts restic.sh
 
 backup-failure:
-	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:0.1 backup script restic.sh
+	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) backup scripts restic_failure.sh
 
 list:
-	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:0.1 list
+	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) list
 
 restore-snapshot:
-	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:0.1 restore c6b69e10 /tmp
+	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) restore latest /tmp
 
 end-to-end-test:
 	make initialize

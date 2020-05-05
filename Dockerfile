@@ -8,12 +8,12 @@ LABEL VERSION=1.0 \
 RUN apk add --no-cache bash restic
 RUN addgroup -S backup && adduser --disabled-password --ingroup backup --uid 1001 backup
 
-COPY restic.sh /scripts/
+COPY scripts /scripts/
 COPY restic.default /etc/backup/
-COPY resticEntrypoint.sh /
+#COPY resticEntrypoint.sh /
 
 RUN chown -R backup:backup /etc/backup/
-RUN chown -R backup:backup /resticEntrypoint.sh
+RUN chown -R backup:backup /scripts
 USER backup
 
-ENTRYPOINT ["/bin/bash", "/resticEntrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/scripts/resticEntrypoint.sh"]
