@@ -18,8 +18,29 @@ Future supported repository :
 * Azure BLOB
 
 ## Usage
+* restic.properties file
+For the sake of security you have to provide restic.properties as volume mounting as it contains critical information. Below is a sample of it:
+```
+export AWS_ACCESS_KEY_ID="XXXXXXXXXXXXXXXXXX"
+export AWS_SECRET_ACCESS_KEY="XXXXXXXXXXXXXXXXXX"
+export RESTIC_PASSWORD="XXXXXXXXXXXXXXXXXX"
+export RESTIC_REPOSITORY="s3:https://s3.amazonaws.com/xxxxxxxxx"
+
+```
+* Logging
+Now we have logging support enabled as well a log file will be created at ""/var/log/backup/restic.log"". Content of log fill will look something like.
+```
+Wed May  6 03:26:44 UTC 2020] [DEBUG]  > resticEntrypoint SCRIPTENTRY
+[Wed May  6 03:26:44 UTC 2020] [DEBUG]  > listSnapshots ENTRY
+[Wed May  6 03:26:44 UTC 2020] [DEBUG]  > initialized ENTRY
+[Wed May  6 03:26:44 UTC 2020] [DEBUG]  Validating repo is initialized in 1 attempt
+[Wed May  6 03:27:02 UTC 2020] [DEBUG]  Validating repo is initialization done in 0 attempt
+[Wed May  6 03:27:02 UTC 2020] [DEBUG]  < initialized EXIT
+[Wed May  6 03:27:02 UTC 2020] [DEBUG]  Listing of snapshots
+[Wed May  6 03:27:09 UTC 2020] [DEBUG]  < listSnapshots EXIT
+```
 * Backup of a file:
-For backup you need provide 2 inputs
+For backup you need to provide 2 inputs
   * Folder containing file to be backed up
   * File that needs to be backed up
 
