@@ -30,7 +30,7 @@ export RESTIC_REPOSITORY="s3:https://s3.amazonaws.com/xxxxxxxxx"
 * Logging
 Now we have logging support enabled as well a log file will be created at ""/var/log/backup/restic.log"". Content of log fill will look something like.
 ```
-Wed May  6 03:26:44 UTC 2020] [DEBUG]  > resticEntrypoint SCRIPTENTRY
+[Wed May  6 03:26:44 UTC 2020] [DEBUG]  > resticEntrypoint SCRIPTENTRY
 [Wed May  6 03:26:44 UTC 2020] [DEBUG]  > listSnapshots ENTRY
 [Wed May  6 03:26:44 UTC 2020] [DEBUG]  > initialized ENTRY
 [Wed May  6 03:26:44 UTC 2020] [DEBUG]  Validating repo is initialized in 1 attempt
@@ -45,10 +45,10 @@ For backup you need to provide 2 inputs
   * File that needs to be backed up
 
 ```
-docker run -v restic.properties:/etc/restic/restic.properties -it --rm opstree/restic:0.1 backup <basefolder> <file>
+docker run -v ${PWD}/sample/log:/var/log/backup -v restic.properties:/etc/restic/restic.properties -it --rm opstree/restic:0.1 backup <basefolder> <file>
 
 i.e
-docker run -v restic.properties:/etc/restic/restic.properties -it --rm opstree/restic:0.1 backup scripts restic.sh
+docker run -v ${PWD}/sample/log:/var/log/backup -v restic.properties:/etc/restic/restic.properties -it --rm opstree/restic:0.1 backup scripts restic.sh
 ```
 
 * Restore of a file:
