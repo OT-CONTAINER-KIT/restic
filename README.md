@@ -68,10 +68,12 @@ docker run -v ${PWD}/sample/restic.properties:/etc/restic/restic.properties -it 
 i.e
 docker run -v ${PWD}/sample/restic.properties:/etc/restic/restic.properties -it --rm opstree/restic:0.1 restore c6b69e10 /tmp
 ```
+
 * Listing of backups
 ```
 docker run -v ${PWD}/sample/restic.properties:/etc/restic/restic.properties -it --rm opstree/restic:0.1 list
 ```  
+
 ## TODO
 * Support environment variables
 * Strengthen input validations
