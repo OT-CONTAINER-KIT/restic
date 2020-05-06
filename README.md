@@ -19,14 +19,14 @@ Future supported repository :
 
 ## Usage
 * restic.properties file
-For the sake of security you have to provide restic.properties as volume mounting as it contains critical information. Below is a sample of it:
+For the sake of security we have not shipped restic.properties in the image, hence you have to provide it via volume mounting as it contains critical information. Below is a sample of it:
 ```
 export AWS_ACCESS_KEY_ID="XXXXXXXXXXXXXXXXXX"
 export AWS_SECRET_ACCESS_KEY="XXXXXXXXXXXXXXXXXX"
 export RESTIC_PASSWORD="XXXXXXXXXXXXXXXXXX"
 export RESTIC_REPOSITORY="s3:https://s3.amazonaws.com/xxxxxxxxx"
-
 ```
+
 * Logging
 Now we have logging support enabled as well a log file will be created at ""/var/log/backup/restic.log"". Content of log fill will look something like.
 ```
@@ -39,6 +39,12 @@ Now we have logging support enabled as well a log file will be created at ""/var
 [Wed May  6 03:27:02 UTC 2020] [DEBUG]  Listing of snapshots
 [Wed May  6 03:27:09 UTC 2020] [DEBUG]  < listSnapshots EXIT
 ```
+* Initializing restic backend
+This function will be called only once to initialize your backend storage
+```
+	docker run -v ${PWD}/sample/log:/var/log/backup -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:0.1 init
+```
+
 * Backup of a file:
 For backup you need to provide 2 inputs
   * Folder containing file to be backed up
