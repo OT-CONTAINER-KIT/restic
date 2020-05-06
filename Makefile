@@ -7,24 +7,25 @@ build:
 	docker build --no-cache  -t opstree/restic:$(RESTIC_IMAGE_VERSION) .
 
 run-entrypoint:
-	docker run --entrypoint /bin/bash -v ${PWD}/sample/restic.properties:/etc/restic/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION)
+	docker run --entrypoint /bin/bash -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION)
 
 initialize:
-	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) init
+	docker run -v ${PWD}/sample/log:/var/log/backup -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) init
 
 backup:
-	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) backup scripts restic.sh
+	docker run -v ${PWD}/sample/log:/var/log/backup -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) backup scripts restic.sh
 
 backup-failure:
-	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) backup scripts restic_failure.sh
+	docker run -v ${PWD}/sample/log:/var/log/backup -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) backup scripts restic_failure.sh
 
 list:
-	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) list
+	docker run -v ${PWD}/sample/log:/var/log/backup -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) list
 
 restore-snapshot:
-	docker run -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) restore latest /tmp
+	docker run -v ${PWD}/sample/log:/var/log/backup -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --rm opstree/restic:$(RESTIC_IMAGE_VERSION) restore latest /tmp
 
 end-to-end-test:
+	> sample/log/restic.log
 	make initialize
 	make backup
 	make list

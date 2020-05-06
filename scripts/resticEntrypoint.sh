@@ -1,5 +1,7 @@
 #!/bin/bash
 source /scripts/restic.sh
+source /scripts/logging.sh
+SCRIPTENTRY
 
 case $1 in
   init)
